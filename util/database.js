@@ -7,4 +7,16 @@ const pool = mysql.createPool({
     password: 'Sanket@123'
 });
 
-module.exports = pool.promise();
+// Create a promise-based connection function
+const getConnection = () => {
+    return new Promise((resolve, reject) => {
+        pool.getConnection((err, connection) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(connection);
+        });
+    });
+};
+
+module.exports = getConnection;
